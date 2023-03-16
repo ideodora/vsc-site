@@ -11,7 +11,7 @@
 	<div class="bg-stone-900">
 		<Explorer />
 	</div>
-	<div class="editor-pane bg-stone-800 text-gray-50">
+	<div class="editor-pane bg-[#272823] text-gray-50">
 		<FileTabs />
 		<slot />
 	</div>
