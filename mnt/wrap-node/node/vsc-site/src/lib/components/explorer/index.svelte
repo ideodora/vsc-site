@@ -1,4 +1,4 @@
-<div class="text-gray-100 text-xs">
+<div class="sidebar text-gray-100 text-xs">
 	<details>
 		<summary>開いているエディター</summary>
 	</details>
@@ -45,7 +45,7 @@
 		<p>.gitignore</p>
 		<p>package.json</p>
 		<p>README.md</p>
-		<p>tsconfig.json</p>
+		<p><a href="/tsconfig.json">tsconfig.json</a></p>
 		<p><a href="/">index.html</a></p>
 		<p><a href="/sample">sample.html</a></p>
 	</details>
@@ -59,3 +59,24 @@
 		<summary>NPM SCRIPTS</summary>
 	</details>
 </div>
+
+<style lang="postcss">
+	.sidebar > details > summary {
+		@apply p-1 bg-[#272823];
+	}
+	.sidebar > details > p {
+		@apply pl-2 py-1 pr-1 hover:bg-[#272823];
+	}
+	.sidebar > details > details > summary {
+		@apply pl-3 py-1 pr-1 hover:bg-[#272823];
+	}
+	.sidebar > details > details > p {
+		@apply pl-4 py-1 pr-1 hover:bg-[#272823];
+	}
+	.sidebar > details > details > details > summary {
+		@apply pl-5 py-1 pr-1 hover:bg-[#272823];
+	}
+	.sidebar > details > details > details > p {
+		@apply pl-6 py-1 pr-1 hover:bg-[#272823];
+	}
+</style>

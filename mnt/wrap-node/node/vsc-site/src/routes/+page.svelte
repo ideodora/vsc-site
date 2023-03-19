@@ -8,8 +8,8 @@
 		<div class="w-1/2 ">
 			<div class="text-3xl mb-4">Start from</div>
 			<ul>
-				<li><a href="/sample">sample</a></li>
-				<li><a href="/">hoge</a></li>
+				<li><a href="/sample">sample.html</a></li>
+				<li><a href="/tsconfig.json">tsconfig.json</a></li>
 				<li><a href="/">hoge</a></li>
 				<li><a href="/">hoge</a></li>
 			</ul>
