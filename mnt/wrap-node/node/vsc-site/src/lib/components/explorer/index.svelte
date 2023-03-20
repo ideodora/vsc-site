@@ -76,7 +76,4 @@
 	.sidebar > details > details > details > summary {
 		@apply pl-5 py-1 pr-1 hover:bg-[#272823];
 	}
-	.sidebar > details > details > details > p {
-		@apply pl-6 py-1 pr-1 hover:bg-[#272823];
-	}
 </style>

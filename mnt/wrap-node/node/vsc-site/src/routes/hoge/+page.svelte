@@ -1,4 +1,21 @@
 <div class="grid">
-	<img src="%sveltekit.assets%/thumbnail.jpg" alt="screenshot" />
-	<img src="%sveltekit.assets%/logo.png" alt="sevelte logo" />
+	<div>
+		<img src="/thumbnail.jpg" alt="screenshot" />
+	</div>
+	<div>
+		<img class="absolute w-40 block bottom-10 left-10" src="/logo.png" alt="sevelte logo" />
+	</div>
 </div>
+
+<style lang="postcss">
+	.grid {
+		position: relative;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+	}
+	.grid > * {
+		grid-area: 1/1;
+		inset: 0;
+		position: relative;
+	}
+</style>

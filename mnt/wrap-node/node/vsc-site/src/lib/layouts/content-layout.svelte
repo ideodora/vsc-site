@@ -5,13 +5,13 @@
 </script>
 
 <div class="grid h-full overflow-hidden">
-	<div class="bg-[#ff6433]">
+	<div class="bg-secondary">
 		<Toolbar />
 	</div>
-	<div class="bg-stone-900">
+	<div class="bg-base-900">
 		<Explorer />
 	</div>
-	<div class="editor-pane bg-[#272823] text-gray-50">
+	<div class="editor-pane bg-base-400 text-gray-50">
 		<FileTabs />
 		<slot />
 	</div>
