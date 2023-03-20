@@ -4,10 +4,13 @@
 	import { pageHistory, pageHistoryArray } from '$lib/shared/store/page-history';
 	import Close from 'svelte-google-materialdesign-icons/Close.svelte';
 	import Code from 'svelte-google-materialdesign-icons/Code.svelte';
+	import TabContext from './tab-context.svelte';
+	import { tooltip } from './tab-context';
 
 	export let history: { path: string; label: string };
 
 	let activePath: string | null;
+	let isOpeningContextMenu = false;
 
 	const goToPage = () => {
 		goto(history.path);
@@ -30,10 +33,11 @@
 </script>
 
 <div
-	class="tab py-2 px-4 group flex cursor-pointer"
+	class="tab py-2 px-4 group flex cursor-pointer select-none"
 	class:active={history.path === activePath}
 	on:click={goToPage}
 	on:keydown={onKeydown}
+	use:tooltip={{ content: TabContext, history }}
 >
 	<Code size={16} class="text-secondary" />
 	<div class="mx-1">{history.label}</div>
@@ -45,6 +49,10 @@
 		<Close size={16} />
 	</button>
 </div>
+
+{#if isOpeningContextMenu}
+	<div class="bg-green-500 absolute">hei this is context menu</div>
+{/if}
 
 <style lang="postcss">
 	.tab {
