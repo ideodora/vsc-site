@@ -21,7 +21,25 @@ services:
       - ./mnt/wrap-node:/mnt
       - warap-node__node_modules:/mnt/node_modules
     tty: true
+  firebase:
+    build: ./containers/firebase
+    volumes:
+      - ./mnt/firebase:/mnt
+      - firebase_functions_node_modules:/mnt/functions/node_modules # for firebase
+    tty: true
+    ports:
+      - '4000:4000' # firebase emu gui
+      - '4500:4500' # firebase emu logging
+      - '5001:5001' # firebase emu func
+      - '8080:8080' # firebase emu firestore
+      - '8085:8085' # firebase emu pubsub
+      - '9099:9099' # firebase emu auth
+      - '9150:9150' # firebase emu firestore:websocket
+      - '9199:9199' # firebase emu storage
+      - '9299:9299' # firebase emu eventarc
+    working_dir: /mnt
 
 volumes:
   node_node_modules:
   warap-node__node_modules:
+  firebase_functions_node_modules:
