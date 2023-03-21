@@ -2,19 +2,45 @@ import { createPopper } from '@popperjs/core';
 import type { Instance as PopperInstance } from '@popperjs/core';
 import type TabContext from '$lib/components/file-tabs/tab-context.svelte';
 
-export function tooltip(node, options) {
+// TODO: resolve content type
+type TooltipOption = {
+	content: new (options: any) => TabContext;
+	history: PageHistory;
+};
+
+export function tooltip(node: HTMLElement, options: TooltipOption) {
 	const button = node;
 	const tooltipComponent = options.content;
 
 	let popperInstance: PopperInstance | null;
-	let componentInstance: TabContext;
-	let popper: HTMLDivElement;
+	let componentInstance: TabContext | undefined;
+	let popper: HTMLDivElement | null;
+	let active = false;
 
-	button.addEventListener('contextmenu', show);
-	// button.addEventListener('mouseout', hide);
+	const detectClickOutside = (event: MouseEvent) => {
+		const target = event.target as HTMLElement;
+		if (popper && !popper.contains(target)) {
+			hide();
+		}
+	};
 
-	function show(event: MouseEvent) {
+	const detectContextmenuOthers = (event: MouseEvent) => {
+		const target = event.target as HTMLElement;
+		if (button && !button.contains(target)) {
+			hide();
+		}
+	};
+
+	const show = (event: MouseEvent) => {
 		event.preventDefault();
+
+		if (active) return;
+
+		popper = document.querySelector('#tooltip');
+		if (popper) {
+			popper.removeAttribute('data-show');
+			popper.remove();
+		}
 
 		componentInstance = new tooltipComponent({
 			target: document.body,
@@ -35,24 +61,36 @@ export function tooltip(node, options) {
 				}
 			]
 		});
-	}
 
-	// function hide() {
-	// 	popper = document.querySelector('#tooltip')!;
-	// 	popper.removeAttribute('data-show');
+		active = true;
 
-	// 	if (popperInstance) {
-	// 		popperInstance.destroy();
-	// 		popperInstance = null;
-	// 	}
+		document.addEventListener('click', detectClickOutside);
+		document.addEventListener('contextmenu', detectContextmenuOthers);
+	};
 
-	// 	componentInstance.$destroy();
-	// }
+	const hide = () => {
+		popper = document.querySelector('#tooltip')!;
+
+		if (popperInstance) {
+			popperInstance.destroy();
+			popperInstance = null;
+		}
+
+		componentInstance?.$destroy();
+
+		active = false;
+
+		document.removeEventListener('click', detectClickOutside);
+		document.removeEventListener('contextmenu', detectContextmenuOthers);
+	};
+
+	button.addEventListener('contextmenu', show);
 
 	return {
 		destroy() {
 			button.removeEventListener('contextmenu', show);
-			// button.removeEventListener('mouseout', hide);
+			document.removeEventListener('click', detectClickOutside);
+			document.removeEventListener('contextmenu', detectContextmenuOthers);
 		}
 	};
 }

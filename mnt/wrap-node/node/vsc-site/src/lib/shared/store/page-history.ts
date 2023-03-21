@@ -1,11 +1,6 @@
 import { writable, derived } from 'svelte/store';
 import { browser } from '$app/environment';
 
-interface PageHistory {
-	path: string;
-	label: string;
-}
-
 function createPageHistoryStore() {
 	const { subscribe, set, update } = writable(
 		new Map<string, PageHistory>([['/', { label: 'Welcome', path: '/' }]])

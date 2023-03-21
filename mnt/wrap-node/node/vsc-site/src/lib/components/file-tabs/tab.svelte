@@ -7,7 +7,7 @@
 	import TabContext from './tab-context.svelte';
 	import { tooltip } from './tab-context';
 
-	export let history: { path: string; label: string };
+	export let history: PageHistory;
 
 	let activePath: string | null;
 	let isOpeningContextMenu = false;
