@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import type { PageServerLoad } from './$types';
 
-export const prerender = 'auto';
+export const prerender = true;
 
 export const load = (async ({ params }) => {
 	const post = await getPostFromDatabase(params.id);

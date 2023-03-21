@@ -3,7 +3,7 @@ import type { LayoutServerLoad } from './$types';
 import { db } from './firebase';
 import { collection, query, getDocs } from 'firebase/firestore';
 
-export const prerender = 'auto';
+export const prerender = true;
 
 export const load = (async () => {
 	const post = await getPostFromDatabase();
