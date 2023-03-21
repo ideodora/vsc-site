@@ -66,6 +66,7 @@ export function tooltip(node: HTMLElement, options: TooltipOption) {
 
 		document.addEventListener('click', detectClickOutside);
 		document.addEventListener('contextmenu', detectContextmenuOthers);
+		document.addEventListener('contextmenu_close', hide);
 	};
 
 	const hide = () => {
@@ -82,6 +83,7 @@ export function tooltip(node: HTMLElement, options: TooltipOption) {
 
 		document.removeEventListener('click', detectClickOutside);
 		document.removeEventListener('contextmenu', detectContextmenuOthers);
+		document.removeEventListener('contextmenu_close', hide);
 	};
 
 	button.addEventListener('contextmenu', show);
@@ -91,6 +93,7 @@ export function tooltip(node: HTMLElement, options: TooltipOption) {
 			button.removeEventListener('contextmenu', show);
 			document.removeEventListener('click', detectClickOutside);
 			document.removeEventListener('contextmenu', detectContextmenuOthers);
+			document.removeEventListener('contextmenu_close', hide);
 		}
 	};
 }

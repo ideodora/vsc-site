@@ -4,7 +4,7 @@
 </script>
 
 <div class="tabs bg-base-900 flex gap-x-px text-xs">
-	{#each $pageHistoryArray as history}
+	{#each $pageHistoryArray as history (history.path)}
 		<Tab {history} />
 	{/each}
 </div>

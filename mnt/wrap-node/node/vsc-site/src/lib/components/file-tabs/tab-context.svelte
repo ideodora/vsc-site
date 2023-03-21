@@ -6,16 +6,24 @@
 
 	const onClickCloseOthers = () => {
 		for (const path of $pageHistory.keys()) {
+			console.log(path, history.path);
 			if (history.path !== path) {
 				pageHistory.delete(path);
 			}
 		}
 		goto(history.path);
+		emitCloseEvent();
+		console.log($pageHistory);
 	};
 
 	const onClickCopyLink = async () => {
 		// TODO: prefix protocol + host
 		await navigator.clipboard.writeText(history.path);
+		emitCloseEvent();
+	};
+
+	const emitCloseEvent = () => {
+		document.dispatchEvent(new CustomEvent('contextmenu_close'));
 	};
 </script>
 
