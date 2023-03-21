@@ -1,4 +1,8 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
+	import { format } from '$lib/shared/helper/date';
+
+	export let data: LayoutData; // all routes
 </script>
 
 <div class="wrap p-2 text-gray-200">
@@ -17,10 +21,15 @@
 		<div class="w-1/2 ">
 			<div class="text-3xl mb-4">Recent updates</div>
 			<ul>
-				<li><a href="/">hoge</a></li>
-				<li><a href="/">hoge</a></li>
-				<li><a href="/">hoge</a></li>
-				<li><a href="/">hoge</a></li>
+				{#each data.recentUpdates as route (route.id)}
+					<li>
+						<a href={`/blog/${route.id}`}>
+							<time class="pr-2">{format(route.postedAt, 'yyyy-MM-dd HH:mm')}</time><span
+								>{route.title}</span
+							>
+						</a>
+					</li>
+				{/each}
 			</ul>
 		</div>
 	</div>

@@ -1,10 +1,37 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import { pageHistoryArray, pageHistory } from '$lib/shared/store/page-history';
+	import Close from 'svelte-google-materialdesign-icons/Close.svelte';
+
+	let activePath: string | null;
+
+	const clearHistory = (history: PageHistory) => {
+		if ($pageHistoryArray.length > 1) {
+			pageHistory.delete(history.path);
+			const otherPath = $pageHistoryArray.slice(-1).pop()!;
+			goto(otherPath.path);
+		}
+	};
+
+	$: activePath = $page.url.pathname;
 </script>
 
 <div class="sidebar text-gray-100 text-xs">
 	<details>
-		<summary>開いているエディター</summary>
+		<summary>開いているページ</summary>
+		{#each $pageHistoryArray as history (history.path)}
+			<p class="group flex items-center" class:active={history.path === activePath}>
+				<button
+					class="invisible group-hover:visible group-[.active]:visible mr-2"
+					type="button"
+					on:click={() => clearHistory(history)}
+				>
+					<Close size={16} />
+				</button>
+				<a class="grow" href={history.path}>{history.label}</a>
+			</p>
+		{/each}
 	</details>
 	<details open>
 		<summary>MY-SITE</summary>
@@ -73,18 +100,21 @@
 
 <style lang="postcss">
 	.sidebar > details > summary {
-		@apply p-1 bg-[#272823];
+		@apply p-1 bg-base-500;
 	}
 	.sidebar > details > p {
-		@apply pl-2 py-1 pr-1 hover:bg-[#272823];
+		@apply pl-2 py-1 pr-1 hover:bg-base-500;
+	}
+	.sidebar > details > p.active {
+		@apply bg-base-100;
 	}
 	.sidebar > details > details > summary {
-		@apply pl-3 py-1 pr-1 hover:bg-[#272823];
+		@apply pl-3 py-1 pr-1 hover:bg-base-500;
 	}
 	.sidebar > details > details > p {
-		@apply pl-4 py-1 pr-1 hover:bg-[#272823];
+		@apply pl-4 py-1 pr-1 hover:bg-base-500;
 	}
 	.sidebar > details > details > details > summary {
-		@apply pl-5 py-1 pr-1 hover:bg-[#272823];
+		@apply pl-5 py-1 pr-1 hover:bg-base-500;
 	}
 </style>

@@ -29,7 +29,7 @@
 		}
 	};
 
-	$: activePath = $page.route.id;
+	$: activePath = $page.url.pathname;
 </script>
 
 <div
