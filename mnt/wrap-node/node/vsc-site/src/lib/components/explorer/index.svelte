@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+</script>
+
 <div class="sidebar text-gray-100 text-xs">
 	<details>
 		<summary>開いているエディター</summary>
@@ -40,6 +44,13 @@
 		<details>
 			<summary>tests</summary>
 			<p>test.ts</p>
+		</details>
+
+		<details open>
+			<summary>blog</summary>
+			{#each $page.data.routes as route (route.id)}
+				<p><a href={`/blog/${route.id}`}>{route.title}</a></p>
+			{/each}
 		</details>
 
 		<p>.gitignore</p>

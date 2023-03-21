@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 
 	import AppLayout from '$lib/layouts/app-layout.svelte';
@@ -7,8 +7,13 @@
 	import { pageHistory } from '$lib/shared/store/page-history';
 	import { beforeNavigate } from '$app/navigation';
 
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
 	beforeNavigate(({ to }) => {
 		const path = to?.route.id;
+		console.log('navigate to', to);
 		if (path === undefined) return;
 		switch (path) {
 			case '/':
@@ -22,6 +27,14 @@
 				break;
 			default:
 				break;
+		}
+		if (path === '/blog/[id]') {
+			const pathname = to?.url.pathname ?? '/blog';
+			const blogId = to?.params?.id ?? 'noid';
+			const theRoute = data.routes.find((route) => route.id === blogId);
+			if (theRoute) {
+				pageHistory.push(pathname, { label: theRoute.title, path: pathname });
+			}
 		}
 	});
 </script>
