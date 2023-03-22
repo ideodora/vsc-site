@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
-import { db } from './firebase';
+import { db } from '$lib/firebase';
 import { collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
 
 export const prerender = true;
@@ -17,7 +17,7 @@ export const load = (async () => {
 }) satisfies LayoutServerLoad;
 
 async function getPostFromDatabase() {
-	const q = query(collection(db(), 'blog'));
+	const q = query(collection(db, 'blog'));
 	const querySnapshot = await getDocs(q);
 	const routes = querySnapshot.docs.map((doc) => {
 		const data = doc.data();
@@ -31,7 +31,7 @@ async function getPostFromDatabase() {
 }
 
 async function getRecentBlogPosts() {
-	const q = query(collection(db(), 'blog'), orderBy('postedAt', 'desc'), limit(5));
+	const q = query(collection(db, 'blog'), orderBy('postedAt', 'desc'), limit(5));
 	const querySnapshot = await getDocs(q);
 	const routes = querySnapshot.docs.map((doc) => {
 		const data = doc.data();

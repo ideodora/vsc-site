@@ -13,6 +13,8 @@ console.log('dev connect to firestore emulator');
 connectFirestoreEmulator(_db, 'firebase', 8080);
 // }
 
-export function db() {
-	return _db;
-}
+// export function db() {
+// 	return _db;
+// }
+
+export const db = _db;

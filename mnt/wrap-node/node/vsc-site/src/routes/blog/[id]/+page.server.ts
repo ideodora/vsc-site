@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db } from '$lib/firebase';
 import type { PageServerLoad } from './$types';
 
 export const prerender = true;
@@ -16,7 +16,7 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 async function getPostFromDatabase(id: string) {
-	const docRef = doc(db(), 'blog', id);
+	const docRef = doc(db, 'blog', id);
 	const snapshot = await getDoc(docRef);
 	const data = snapshot.data()!;
 	const post = {
