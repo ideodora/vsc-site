@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '$lib/firebase';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
-export const prerender = true;
+// export const prerender = true;
 
 export const load = (async ({ params }) => {
 	const post = await getPostFromDatabase(params.id);
@@ -13,7 +13,7 @@ export const load = (async ({ params }) => {
 	}
 
 	throw error(404, 'Not found');
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;
 
 async function getPostFromDatabase(id: string) {
 	const docRef = doc(db, 'blog', id);

@@ -19,9 +19,15 @@
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.5.0",
+		"@tailwindcss/forms": "^0.5.3",
 		"@tailwindcss/typography": "^0.5.9",
+		"@tiptap/core": "^2.0.0-beta.220",
+		"@tiptap/pm": "^2.0.0-beta.220",
+		"@tiptap/starter-kit": "^2.0.0-beta.220",
+		"@types/prismjs": "^1.26.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
+		"@zerodevx/svelte-toast": "^0.9.2",
 		"autoprefixer": "^10.4.14",
 		"date-fns": "^2.29.3",
 		"eslint": "^8.28.0",
@@ -31,6 +37,7 @@
 		"postcss": "^8.4.21",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.8.1",
+		"prismjs": "^1.29.0",
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
 		"svelte-google-materialdesign-icons": "^0.4.1",
@@ -39,7 +46,8 @@
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0",
-		"vitest": "^0.25.3"
+		"vitest": "^0.25.3",
+		"zod": "^3.21.4"
 	},
 	"type": "module"
 }

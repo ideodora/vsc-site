@@ -1,7 +1,8 @@
 import { error } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
+import type { LayoutLoad } from './$types';
 import { db } from '$lib/firebase';
 import { collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
+import { fetchRoutes } from '$lib/fetch-routes';
 
 export const prerender = true;
 
@@ -9,12 +10,14 @@ export const load = (async () => {
 	const post = await getPostFromDatabase();
 	const recentUpdates = await getRecentBlogPosts();
 
+	const archives = await fetchRoutes();
+
 	if (post) {
-		return { routes: post, recentUpdates };
+		return { routes: post, recentUpdates, archives };
 	}
 
 	throw error(404, 'Not found');
-}) satisfies LayoutServerLoad;
+}) satisfies LayoutLoad;
 
 async function getPostFromDatabase() {
 	const q = query(collection(db, 'blog'));

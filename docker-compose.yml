@@ -6,28 +6,12 @@ services:
     volumes:
       - ./mnt/wrap-node/node:/mnt
       - node_node_modules:/mnt/vsc-site/node_modules # for svelte
+      - firebase_functions_node_modules:/mnt/firebase/functions/node_modules # for firebase
     tty: true
     ports:
       - '5173:5173' # for npm run dev
       - '4173:4173' # for npm run preview
       - '6006:6006'
-    working_dir: /mnt
-  e2e:
-    image: mcr.microsoft.com/playwright:v1.31.2-focal
-    environment:
-      - DISPLAY=${_DISPLAY}
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./mnt/wrap-node:/mnt
-      - warap-node__node_modules:/mnt/node_modules
-    tty: true
-  firebase:
-    build: ./containers/firebase
-    volumes:
-      - ./mnt/firebase:/mnt
-      - firebase_functions_node_modules:/mnt/functions/node_modules # for firebase
-    tty: true
-    ports:
       - '4000:4000' # firebase emu gui
       - '4500:4500' # firebase emu logging
       - '5001:5001' # firebase emu func
@@ -38,6 +22,15 @@ services:
       - '9199:9199' # firebase emu storage
       - '9299:9299' # firebase emu eventarc
     working_dir: /mnt
+  e2e:
+    image: mcr.microsoft.com/playwright:v1.31.2-focal
+    environment:
+      - DISPLAY=${_DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./mnt/wrap-node:/mnt
+      - warap-node__node_modules:/mnt/node_modules
+    tty: true
 
 volumes:
   node_node_modules:

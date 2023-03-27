@@ -1,15 +1,20 @@
 <script lang="ts">
 	import '../app.css';
 
+	import type { LayoutData } from './$types';
+	import { beforeNavigate } from '$app/navigation';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+
 	import AppLayout from '$lib/layouts/app-layout.svelte';
 	import ContentLayout from '$lib/layouts/content-layout.svelte';
-
 	import { pageHistory } from '$lib/shared/store/page-history';
-	import { beforeNavigate } from '$app/navigation';
-
-	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
+
+	const toastOptions = {
+		reversed: true,
+		intro: { y: 192 }
+	};
 
 	beforeNavigate(({ to }) => {
 		const path = to?.route.id;
@@ -24,6 +29,12 @@
 				break;
 			case '/tsconfig.json':
 				pageHistory.push(path, { label: 'tsconfig.json', path });
+				break;
+			case '/settings.json':
+				pageHistory.push(path, { label: 'settings.json', path });
+				break;
+			case '/inquiry':
+				pageHistory.push(path, { label: 'contact me', path });
 				break;
 			default:
 				break;
@@ -45,5 +56,17 @@
 	</ContentLayout>
 </AppLayout>
 
+<SvelteToast options={toastOptions} />
+
 <style lang="postcss">
+	:root {
+		--toastContainerTop: auto;
+		--toastContainerRight: 5px;
+		--toastContainerBottom: calc(1rem + 5px);
+		--toastContainerLeft: auto;
+		--toastContainerZIndex: 10001;
+	}
+	:global(.firebase-emulator-warning) {
+		display: none;
+	}
 </style>

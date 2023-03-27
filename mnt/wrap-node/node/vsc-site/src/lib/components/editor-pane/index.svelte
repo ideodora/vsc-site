@@ -8,7 +8,7 @@
 <div class="wrap overflow-auto">
 	<div class="p-2 flex">
 		<LineNumbers />
-		<main class="overflow-auto">
+		<main class="overflow-auto grow">
 			<slot />
 		</main>
 	</div>

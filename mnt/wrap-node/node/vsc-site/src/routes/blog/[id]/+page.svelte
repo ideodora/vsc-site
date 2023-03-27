@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import EditorPane from '$lib/components/editor-pane/index.svelte';
 	import { format } from '$lib/shared/helper/date';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>

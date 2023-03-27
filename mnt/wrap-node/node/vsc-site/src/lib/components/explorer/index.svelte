@@ -35,23 +35,10 @@
 	</details>
 	<details open>
 		<summary>MY-SITE</summary>
-		<details>
-			<summary>.svelte-kit</summary>
-			<details>
-				<summary>generated</summary>
-			</details>
-			<details>
-				<summary>types</summary>
-			</details>
-			<p>ambient.d.ts</p>
-			<p>tsconfig.json</p>
-		</details>
 
 		<details>
 			<summary>.vscode</summary>
-			<details><summary>.bin</summary></details>
-			<details><summary>.vite</summary></details>
-			<details><summary>.@esbuild</summary></details>
+			<p><a href="/settings.json">settings.json</a></p>
 		</details>
 
 		<details>
@@ -75,8 +62,19 @@
 
 		<details open>
 			<summary>blog</summary>
-			{#each $page.data.routes as route (route.id)}
-				<p><a href={`/blog/${route.id}`}>{route.title}</a></p>
+
+			{#each [...$page.data.archives.values()] as yearCat (yearCat.label)}
+				<details>
+					<summary>{yearCat.label}</summary>
+					{#each [...yearCat.children.values()] as monthCat (monthCat.label)}
+						<details>
+							<summary>{monthCat.label}</summary>
+							{#each monthCat.children as child (child.id)}
+								<p><a href={`/blog/${child.id}`}>{child.title}</a></p>
+							{/each}
+						</details>
+					{/each}
+				</details>
 			{/each}
 		</details>
 
@@ -86,6 +84,9 @@
 		<p><a href="/tsconfig.json">tsconfig.json</a></p>
 		<p><a href="/">index.html</a></p>
 		<p><a href="/sample">sample.html</a></p>
+		<p><a href="/inquiry">conatct me</a></p>
+		<p><a href="/admin">admin</a></p>
+		<p><a href="/admin/login">login</a></p>
 	</details>
 	<details>
 		<summary>アウトライン</summary>
@@ -116,5 +117,14 @@
 	}
 	.sidebar > details > details > details > summary {
 		@apply pl-5 py-1 pr-1 hover:bg-base-500;
+	}
+	.sidebar > details > details > details > p {
+		@apply pl-6 py-1 pr-1 hover:bg-base-500;
+	}
+	.sidebar > details > details > details > details > summary {
+		@apply pl-7 py-1 pr-1 hover:bg-base-500;
+	}
+	.sidebar > details > details > details > details > p {
+		@apply pl-8 py-1 pr-1 hover:bg-base-500;
 	}
 </style>
