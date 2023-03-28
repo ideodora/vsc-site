@@ -1,20 +1,50 @@
+<script context="module" lang="ts">
+	declare module grecaptcha {
+		const ready: any;
+		const execute: any;
+	}
+</script>
+
 <script lang="ts">
 	import EditorPane from '$lib/components/editor-pane/index.svelte';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { z } from 'zod';
 	import { ContactForm, type ContactFormErrors } from './validate';
+	import type { ActionData } from './$types';
+	import { tick } from 'svelte';
+	import { PUBLIC_RECAPTCHA_SITE_KEY } from '$env/static/public';
+
+	export let formActionData: ActionData;
+
+	let form: HTMLFormElement;
+	let reCaptchaToken: string;
 
 	let subject = '';
 	let email = '';
 	let body = '';
 	let errors: ContactFormErrors | undefined;
 
-	const onClickSend = () => {
+	const onClickSend = (event: SubmitEvent) => {
+		event.preventDefault();
+
 		try {
+			errors = undefined;
 			const values = { subject, email, body };
 			ContactForm.parse(values);
 
 			// TODO: send form data
+
+			grecaptcha.ready(() => {
+				grecaptcha
+					.execute(PUBLIC_RECAPTCHA_SITE_KEY, { action: 'submit' })
+					.then(async (token: string) => {
+						console.log('token', token);
+						reCaptchaToken = token;
+						await tick();
+						// Add your logic to submit to your backend server here.
+						form.submit();
+					});
+			});
 
 			toast.push('inquiry sent');
 		} catch (error) {
@@ -34,69 +64,85 @@
 			id neque, eaque commodi doloremque soluta deserunt sit aut sequi facilis tempora dolores
 			dignissimos ipsa iusto.
 		</p>
-		<form class="text-gray-800">
-			<div class="field field-short">
-				<label for="subject">Subject</label>
-				<select
-					id="subject"
-					class="text-sm"
-					class:outline={errors?.fieldErrors.subject}
-					class:outline-4={errors?.fieldErrors.subject}
-					class:outline-red-400={errors?.fieldErrors.subject}
-					bind:value={subject}
+		{#if formActionData?.success}
+			<h2 class="text-3xl text-gray-50 my-8">Thanks</h2>
+		{/if}
+
+		{#if !formActionData}
+			<form class="text-gray-800" method="POST" bind:this={form} on:submit={onClickSend}>
+				<div class="field field-short">
+					<label for="subject">Subject</label>
+					<select
+						name="subject"
+						id="subject"
+						class="text-sm"
+						class:outline={errors?.fieldErrors.subject}
+						class:outline-4={errors?.fieldErrors.subject}
+						class:outline-red-400={errors?.fieldErrors.subject}
+						bind:value={subject}
+					>
+						<option value="">Select a topic</option>
+						<option value="topic1">topic1</option>
+						<option value="topic2">topic2</option>
+						<option value="topic3">topic3</option>
+					</select>
+					{#if errors?.fieldErrors.subject}
+						{#each errors.fieldErrors.subject as error}
+							<div class="text-red-500">{error}</div>
+						{/each}
+					{/if}
+				</div>
+				<div class="field field-short">
+					<label for="email">Email</label>
+					<input
+						name="email"
+						type="email"
+						class="text-sm placeholder:text-gray-300"
+						placeholder="sample@sample.com"
+						class:outline={errors?.fieldErrors.email}
+						class:outline-4={errors?.fieldErrors.email}
+						class:outline-red-400={errors?.fieldErrors.email}
+						bind:value={email}
+					/>
+					{#if errors?.fieldErrors.email}
+						{#each errors.fieldErrors.email as error}
+							<div class="text-red-500">{error}</div>
+						{/each}
+					{/if}
+				</div>
+				<div class="field">
+					<label for="body">Body</label>
+					<textarea
+						name="body"
+						id="body"
+						bind:value={body}
+						class:outline={errors?.fieldErrors.body}
+						class:outline-4={errors?.fieldErrors.body}
+						class:outline-red-400={errors?.fieldErrors.body}
+					/>
+					{#if errors?.fieldErrors.body}
+						{#each errors.fieldErrors.body as error}
+							<div class="text-red-500">{error}</div>
+						{/each}
+					{/if}
+				</div>
+				<input name="reCaptchaToken" type="hidden" bind:value={reCaptchaToken} />
+				<button
+					type="submit"
+					class="py-1 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700"
+					>send</button
 				>
-					<option value="">Select a topic</option>
-					<option value="topic1">topic1</option>
-					<option value="topic2">topic2</option>
-					<option value="topic3">topic3</option>
-				</select>
-				{#if errors?.fieldErrors.subject}
-					{#each errors.fieldErrors.subject as error}
-						<div class="text-red-500">{error}</div>
-					{/each}
-				{/if}
-			</div>
-			<div class="field field-short">
-				<label for="email">Email</label>
-				<input
-					type="email"
-					class="text-sm placeholder:text-gray-300"
-					placeholder="sample@sample.com"
-					class:outline={errors?.fieldErrors.email}
-					class:outline-4={errors?.fieldErrors.email}
-					class:outline-red-400={errors?.fieldErrors.email}
-					bind:value={email}
-				/>
-				{#if errors?.fieldErrors.email}
-					{#each errors.fieldErrors.email as error}
-						<div class="text-red-500">{error}</div>
-					{/each}
-				{/if}
-			</div>
-			<div class="field">
-				<label for="body">Body</label>
-				<textarea
-					name="body"
-					id="body"
-					bind:value={body}
-					class:outline={errors?.fieldErrors.body}
-					class:outline-4={errors?.fieldErrors.body}
-					class:outline-red-400={errors?.fieldErrors.body}
-				/>
-				{#if errors?.fieldErrors.body}
-					{#each errors.fieldErrors.body as error}
-						<div class="text-red-500">{error}</div>
-					{/each}
-				{/if}
-			</div>
-			<button
-				type="button"
-				class="py-1 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700"
-				on:click={onClickSend}>send</button
-			>
-		</form>
+			</form>
+		{/if}
 	</div>
 </EditorPane>
+
+<svelte:head>
+	<script
+		async
+		src={`https://www.google.com/recaptcha/api.js?render=${PUBLIC_RECAPTCHA_SITE_KEY}`}
+	></script>
+</svelte:head>
 
 <style lang="postcss">
 	form {
