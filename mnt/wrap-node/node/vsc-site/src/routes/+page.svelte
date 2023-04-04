@@ -35,6 +35,15 @@
 	</div>
 </div>
 
+<svelte:head>
+	<title>ideodoraのブログ</title>
+	<meta
+		name="description"
+		content="Author: ideodora,
+    Category: Web Tech, Item: Sveltekit, GCP, Rust, Tauri. Some Thought of mine."
+	/>
+</svelte:head>
+
 <style lang="postcss">
 	a {
 		@apply text-blue-500 hover:underline;

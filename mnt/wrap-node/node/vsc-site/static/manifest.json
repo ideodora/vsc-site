@@ -1,0 +1,14 @@
+{
+	"short_name": "chat-sveltekit-PWA",
+	"name": "chat-sveltekit-PWA-sample",
+	"display": "standalone",
+	"orientation": "portrait",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "/AppIcons/playstore.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}

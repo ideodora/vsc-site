@@ -1,11 +1,11 @@
 import { error } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 import { db } from '$lib/firebase';
-import { collection, query, getDocs, where, orderBy, limit } from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, limit } from 'firebase/firestore';
 import { fetchRoutes } from '$lib/fetch-routes';
 
 export const prerender = true;
-export const ssr = false;
+// export const ssr = false;
 
 export const load = (async () => {
 	const post = await getPostFromDatabase();

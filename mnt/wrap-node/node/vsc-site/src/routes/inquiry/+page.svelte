@@ -38,10 +38,12 @@
 				grecaptcha
 					.execute(PUBLIC_RECAPTCHA_SITE_KEY, { action: 'submit' })
 					.then(async (token: string) => {
-						console.log('token', token);
 						reCaptchaToken = token;
+
+						// await unresolved reactive process here
 						await tick();
-						// Add your logic to submit to your backend server here.
+
+						// then submit
 						form.submit();
 					});
 			});
@@ -132,6 +134,11 @@
 					class="py-1 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700"
 					>send</button
 				>
+				<div class="text-gray-400 bg-gray-700 p-4 mt-2">
+					This site is protected by reCAPTCHA and the Google
+					<a class="text-blue-500" href="https://policies.google.com/privacy">Privacy Policy</a> and
+					<a class="text-blue-500" href="https://policies.google.com/terms">Terms of Service</a> apply.
+				</div>
 			</form>
 		{/if}
 	</div>
@@ -145,6 +152,10 @@
 </svelte:head>
 
 <style lang="postcss">
+	:global(.grecaptcha-badge) {
+		visibility: hidden;
+	}
+
 	form {
 		@apply max-w-[65ch];
 	}

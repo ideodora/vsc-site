@@ -18,9 +18,6 @@ export async function fetchRoutes() {
 		const date = current.postedAt;
 		const year = getYear(date);
 		const month = getMonth(date) + 1;
-		const day = getDay(date);
-		const chrono = { year, month, day };
-		console.table(chrono);
 
 		const yearContainer = accum.get(year) ?? { label: year, children: new Map() };
 		const monthContainer = yearContainer.children.get(month) ?? { label: month, children: [] };

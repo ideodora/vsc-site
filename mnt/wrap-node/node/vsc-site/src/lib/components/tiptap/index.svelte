@@ -154,11 +154,6 @@
 </div>
 
 <style lang="postcss">
-	button.active {
-		background: black;
-		color: white;
-	}
-
 	.element-wrapper > :global(.ProseMirror) {
 		outline: 0;
 		min-height: 100%;

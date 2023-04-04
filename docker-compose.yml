@@ -31,6 +31,12 @@ services:
       - ./mnt/wrap-node:/mnt
       - warap-node__node_modules:/mnt/node_modules
     tty: true
+  gcloud:
+    build: ./containers/gcloud
+    volumes:
+      - ./mnt:/mnt
+    tty: true
+    working_dir: /mnt
 
 volumes:
   node_node_modules:

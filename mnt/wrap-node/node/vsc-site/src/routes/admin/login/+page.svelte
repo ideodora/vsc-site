@@ -71,7 +71,7 @@
 			</div>
 			<div class="field">
 				<label for="password">パスワード</label>
-				<input id="password" type="text" bind:value={password} />
+				<input id="password" type="password" bind:value={password} />
 			</div>
 			<div class="field space-y-2">
 				<button type="button" class="login" on:click={onClickLogin}>ログイン</button>

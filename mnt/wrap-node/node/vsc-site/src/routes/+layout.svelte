@@ -1,9 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 
-	import type { LayoutData } from './$types';
 	import { beforeNavigate } from '$app/navigation';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import type { LayoutData } from './$types';
 
 	import AppLayout from '$lib/layouts/app-layout.svelte';
 	import ContentLayout from '$lib/layouts/content-layout.svelte';
